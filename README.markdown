@@ -1,4 +1,4 @@
-Webiva Content Management System
+Modify Webiva Content Management System
 ===================================
 
 **Important Note: The Open Source Version of Webiva is no longer under active development and we don't recommend new users use it as a Rails CMS**
