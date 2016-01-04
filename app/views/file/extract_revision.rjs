@@ -1,0 +1,4 @@
+
+page.replace_html :file_manager_body, :partial => '/file/details/processing_file', :locals => {:heading => 'Extracting file...'.t}
+
+page.call "FileEditor.processingFile", @processing_key

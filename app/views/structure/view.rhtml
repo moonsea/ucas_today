@@ -1,0 +1,164 @@
+
+<%= render :partial => 'structure_editor' %>
+
+
+<script type='text/javascript'>
+  SCMS.setKeyHandler(StructureEditor.moveKey);
+</script>
+
+
+<% action_panel :handler => 'structure', :more => true do |p| -%>
+  <%= p.link('Wizards',:icon => 'configure.gif',:action => 'wizards', :version => @version.id ) if @wizard_list.length > 0 -%>
+  <%= p.link 'Add Site Elements',:id => 'show_add_elements_button',:hidden => true, :icon => 'add.png', :url => 'javascript:StructureEditor.showElementInfo(false);' if permit?('editor_structure')   %>
+<% end -%>
+
+<% more_action_panel do |p| %>
+  <%= 
+if @show_archived == 'hide'
+   p.link 'Show Archived', :icon => 'show.gif', :url => '?archived=show&version=' + @version.id.to_s
+  else
+   p.link 'Hide Archived', :icon => 'show.gif', :url => '?archived=hide&version='  +@version.id.to_s
+ end
+  %>
+ <%= p.link 'Quick Edit', :icon => 'edit.gif', :url => {:action => 'pages', :path => @version.id} if permit?('editor_structure')   %>
+
+<% end -%>
+
+<hr/>
+
+<div class='tree_container' id='site_structure'>
+  <h2>
+    <%= h "Site Structure".t %> 
+     <%= link_to image_tag(theme_src('icons/header_actions/collapse.png')), 'javascript:StructureEditor.collapseTree();', :align => 'absmiddle' %> 
+<%= link_to image_tag(theme_src('icons/header_actions/expand.png')), 'javascript:StructureEditor.expandTree();' , :align => 'absmiddle' %> 
+  <% if myself.has_role?(:editor_structure_advanced) %>
+    <% versions = SiteVersion.select_options %>
+    <% if versions.length == 1 %>
+      <%= link_to image_tag(theme_src('icons/header_actions/site_trees.png'), :align => 'right'), "javascript:void();", :onclick => "$j('#structure_site_version').slideToggle();"  %> 
+  <% end -%>
+  <div id='structure_site_version' <%= "style='display:none;'" if versions.length == 1 %> >
+      <%= select_tag :site_version_id, options_for_select( [["+ Create a new site tree".t,"new"]] + SiteVersion.select_options,:selected => @version.id ), :onchange => "StructureEditor.changeVersion(this.value);" %>
+      | <a href='javascript:void(0);' onclick='StructureEditor.editVersion(<%= @version.id %>);'  >edit</a>
+    </div>
+  <% end -%>
+
+  </h2>
+  <div class='tree_container_body'>
+    <div style='display:relative;'>
+       <%= render(:partial => "path", :locals => { :paths => [@site_root]}) %>
+    </div>
+  </div>
+
+</div>
+
+<div class='tree_detail' id='element_info' style='display:none;' >
+
+</div>
+
+<div class='tree_detail' id='add_elements'>
+  <h1 class='inpage'><%= h "Edit Your Site".t %></h1>
+  <h2><%= h "Click on a page to view and edit".t %></h2>
+
+<% if permit?('editor_structure') %>
+<div class='tree_detail_body'>
+ <h2><%= "Elements".t %> <i><%= "(drag to add to your page)".t %></i></h2>
+  <div class='add_nodes clearfix'  id='add_nodes'>
+    <%= site_node_add('page','New Page','Add a new Page to the Website') %>
+    <%= site_node_add('document','New File','Add a link to an uploaded file or directory') %>
+    <%= site_node_add('redirect','New Redirect','Redirect to a different page') %>
+    <%= site_node_add('group','New Group','Add a Grouping Element') %>
+  </div>
+</div>
+
+
+<% if @display_modifiers =='show' -%>
+<div class='tree_detail_body'>
+  <h2><%= "Modifiers".t %> <i><%= "(drag to add)".t %></i></h2>
+  <div class='add_nodes clearfix' id='add_modifiers'>
+    <%= site_node_add_modifier('template',"Theme","Change the page style of an element") %>
+    <%= site_node_add_modifier('framework',"Framework","Add page elements that will apear on multiple pages") %>
+    <%= site_node_add_modifier('lock',"Lock","Control access to this page") %>
+    <%= site_node_add_modifier('ssl',"SSL","Force this page to be under ssl") %>
+    <%= site_node_add_modifier('domain',"Domain Control","Force this page to appear on a specific domain") %>
+  </div>
+</div>
+<% end -%>
+
+<% if @display_modifiers == 'show' &&  @active_modules.length > 0 -%>
+<div class='tree_detail_body'>
+  <h2><%= "Modules".t %> <i><%= "(drag to add)".t %></i></h2>
+  <div class='add_nodes clearfix' id='add_modules'>
+   <% @active_modules.each do |mod| -%>
+     <%= site_module_add(mod) %>
+   <% end -%>
+   </div>
+</div>
+<% end -%>
+
+<% end -%>
+
+</div>
+
+<div class='ajax_loader' style='display:none;'></div>
+
+
+<% if permit?('editor_structure') %>
+
+  <script type='text/javascript'>
+  
+  var add_node = getChildElements($('add_nodes'));
+  add_node.each(function (elem) {
+      StructureEditor.addNodeCreateDraggable(elem);
+  });
+  <% if @display_modifiers =='show' -%>
+  
+  <% @active_modules.each do |mod| -%>
+    $('add_module_<%= "#{mod[:component]}_#{mod[:module]}"  %>').module = "<%= mod[:path] %>";
+  <% end -%>
+  
+  var add_modules = getChildElements($('add_modules'));
+  add_modules.each(function (elem) {
+      StructureEditor.addNodeCreateDraggable(elem);
+  });
+  <% end -%>
+  
+  <% if @display_modifiers =='show' -%>
+  
+  var add_mods = getChildElements($('add_modifiers'));
+  add_mods.each(function (elem) {
+      StructureEditor.addNodeCreateDraggable(elem);
+  });
+  <% end -%>
+
+  $j(document).scroll(function(d) {
+      var top = $j(document).scrollTop();
+      var offset = $j("#site_structure").offset();
+      var diff = top - offset.top + 22;
+      if(diff < 0) { diff = 0; }
+
+      if(diff > 0) {
+         $j('#add_elements').width($j('#add_elements').width());
+         $j('#add_elements').height($j('#add_elements').height());
+
+         $j("#add_elements").addClass('add_elements_fixed');
+      }
+      else {
+         $j("#add_elements").removeClass('add_elements_fixed');
+         // $j('#add_elements').width('auto');
+
+      }
+     
+      if(diff > 0) {
+         $j("#show_add_elements_button").addClass('add_elements_button_fixed');
+      }
+      else {
+         $j("#show_add_elements_button").removeClass('add_elements_button_fixed');
+
+      }
+
+  });
+
+
+  </script>
+<% end -%>
+

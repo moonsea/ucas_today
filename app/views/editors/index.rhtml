@@ -1,0 +1,14 @@
+<script>
+ <%= active_table_javascript %>
+</script> 
+<% action_panel do |p| %>
+  <%= p.link 'Add Editor', :action => 'create',:icon => 'add.png' %>
+
+<% end -%>
+<hr/>
+<div class='admin_content'>
+<div id='member_table'>
+<%= render :partial => 'editor_table' %>
+</div>
+
+</div>

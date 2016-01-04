@@ -1,0 +1,95 @@
+<div id="available_file_storage" align="right" style="padding-right:20px;">
+<%= render :partial => 'available_file_storage' %>
+</div>
+
+<hr/>
+
+<div id='fm_dragbox' style='display:none;'></div>
+<%= render :partial => 'file_javascript' %>
+<%= render :partial => 'file_uploader_javascript' %>
+
+<div class='action_area'>
+  <div id='folder_action_area' class='block_left' >
+    <%= render :partial => 'file_upload_area' %>
+  </div>
+
+
+  <div class='block_right'>
+    <%= render :partial => 'file_search_bar' %>
+  </div>
+ </div>
+ <div class='clear'></div>
+
+<div id='filemanager_files'>
+
+  <div class='tree_container file_tree_container'>
+    <h2>
+      <%= "Folders".t %>
+      <%= link_to image_tag(theme_src('icons/header_actions/create_folder.png'), :align => 'right'), 'javascript:FileEditor.createFolder();' %> 
+    </h2>
+    <div class='tree_container_body'>
+      <%= render :partial => 'file_tree', :locals => { :folders => [@root_folder] } %>
+    </div>
+  </div>
+
+  <div class='tree_detail file_tree_detail'>
+
+    <div  id='file_manager_details' style='position:absolute;right:10px;width:290px;' >
+      <h2><%= "File Details".t %></h2>
+      <div id='file_manager_body'>
+      </div>
+    </div>
+    <div style='position:relative; margin-right:310px;'>
+      <div id='slider_wrapper' style='display:none;'>
+        <div class='slider_container' id='slider_container'>
+          <div class='slider_box' id='size_slider_container'>
+            <div class='slider' id='size_slider'><div class='slider_cursor'></div></div>
+          </div>
+        </div>
+      </div>
+
+      <h2>  <div class='block_left' id='folder_title'><%= render :partial => 'folder_title',:locals => { :folder => @folder } %></div>  
+        <ul class='page_detail_buttons' style='position:relative; top:-5px;'>
+          <li>
+            <span  id='folder_order'>
+              <%= render :partial => 'folder_order' %>
+            </span>
+          </li>
+          <li><a class='image_icon_selected' id='view_icon' href='javascript:void(0);' onclick='FileEditor.view("icon");'><%= theme_image_tag('framework/filemanager_icons.png') -%></a></li>
+          <li><a class='image_icon' id='view_list' href='javascript:void(0);' onclick='FileEditor.view("list");'><%= theme_image_tag('framework/filemanager_list.png') -%></a></li>
+          <li style='position:relative;'><a class='image_icon' id='view_slider' href='javascript:void(0);'><%= theme_image_tag('framework/filemanager_slider.png') -%></a>
+          </li>
+          <% if @popup && !@mce %>
+            <li>
+              <a href='javascript:void(0);' onclick='FileEditor.clearSelection();'><%= "Clear Selection".t %></a>
+            </li>
+          <% end -%>
+        </ul>
+
+
+
+        <div style='clear:both;'></div>
+      </h2>
+
+      <div class='tree_detail_body' id='element_info'>
+          <div class='file_manager_icon clearfix' id='file_manager' >
+            <%= render :partial => "folder_details", :locals => { :folder => @folder }	 %>
+          </div>
+          <div class='clear'></div>
+      </div>
+
+
+    </div>
+  </div>
+</div> <!-- end #filemanager_files -->
+
+<div id='filemanager_search' style='display:none;'>
+  <%= render :partial => 'file_search' %>
+</div>
+
+<script>
+$j(document).ready(function() { FileUploader.init('file_upload_form', 'element_info'); });
+</script>
+
+
+

@@ -1,0 +1,48 @@
+<%
+   segment_action = @segment && @segment.segment_type == 'custom' ? ['Remove Users from List', 'remove_users'] : ['Add Users to List','js','MemberEditor.addUsersToList();']
+
+   active_table_for :email_targets_table, @active_table_output,
+                    :refresh_url => url_for(:action => 'display_targets_table', :path => @segment ? @segment.id : nil, :terms => @search.terms, :offsets => @search.offsets.empty? ? nil : @search.offsets),
+                    :class => 'active_table',
+                    :width => '100%',
+                    :next => @search.user_segment && @search.terms ? 'more' : '&gt;',
+                    :actions => [['Acknowledge','acknowledge','Mark the selected entries as acknowledged?'],
+                                 ['Quick Edit','js','MemberEditor.quickEdit();'],
+                                 ['Add Tags','js','MemberEditor.addTags();'],
+                                 ['Remove Tags','js','MemberEditor.removeTags();'],
+                                 segment_action
+                                ],
+                    :more_actions => [['Delete Targets','delete','Delete the selected users?']],
+                    :update => 'targets_table' do |t| %>
+<% user_url = url_for(:action => 'view',  :path => [ t.id, @segment ? @segment.id : nil].compact) %>
+<tr <%= highlight_row "user",t.id %>  >
+  <td nowrap='1'>
+    <%= entry_checkbox 'user',t.id %>
+  </td>
+  <td valign='center' align='center'>
+    <div style='font-size:18px;'><%= t.user_level_dingbat %></div>
+  </td>
+  <td align='center' nowrap='1'>
+    <%= t.editor? ? '' : link_to(theme_image_tag('icons/actions/edit.gif'), :action => 'edit', :path => [ t.id, @segment ? @segment.id : nil ].compact) %>
+  </td>
+  <td align='center'>
+    <%= image = t.image ? t.image.image_tag(:icon) : ''
+        t.editor? ? image : link_to(image,user_url) 
+    %>
+  </td>
+  <td>
+    <a href="javascript:void(0);" onclick="SCMS.remoteOverlay('<%= url_for :action => 'note', :path => t.id %>');"><%= theme_image_tag('icons/table_actions/comment.gif') %></a>
+    <%= link_to(t.name, user_url) %>
+  </td>
+  <td>
+    <%= email = t.email.blank? ? 'No Email'.t : t.email
+        link_to(email, user_url) 
+    %>
+  </td>
+
+  <% display_segment_fields(t) do |field, output| -%>
+    <td align='center'><%= output %></td>
+  <% end -%>
+</tr>  
+
+<% end -%>

@@ -1,0 +1,13 @@
+			<ul id='zones_example' class='horizontal_sortable_example'>
+        <li class='first'>Drag zones<br/>to reorder</li>
+        <% (1..15).each do |z| %>
+             <li><%= z %></li>
+        <% end -%>
+			</ul>			
+		<div style='clear:both;'></div>
+			<ul id='zones' class='horizontal_sortable'>
+				<% @zones.each do |zone| -%>
+					<li id='zone_<%= zone.id %>'><div><%= zone.name || 'Unnamed Zone'.t %></div></li>
+				<% end -%>
+			</ul>
+		<div style='clear:both;'></div>

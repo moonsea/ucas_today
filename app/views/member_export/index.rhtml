@@ -1,0 +1,27 @@
+<%
+  segment_id = @segment ? @segment.id : nil
+-%>
+
+<div class='admin_content'>
+
+<h4><%= "Exporting ".t %><%= sprintf("%d members".t,@member_count.to_i) %></h4>
+
+<% cms_form_for :export, @export, :html => { :id => 'export_form' } do |f| %>
+<%= f.check_boxes :include, @include_options, :vertical => true, :separator => '<br/>', :label => 'Include in export' %>
+<tr>
+  <td colspan='2' align='right'>
+    <input type='button' value='<%= vh "Export & Download".t %>' id='export_button' /> 
+    &nbsp;&nbsp;
+    <span style='display:none;' id='export_button_status'><%= "Exporting File".t %></span>
+  </td>
+</tr>
+<% end -%>
+
+</div>
+
+<script>
+new WebivaExporter({button: '#export_button',
+                    url: "<%= url_for :action => 'generate_file', :path => segment_id %>",
+	            frm: '#export_form',
+                    onComplete: function() {document.location = "<%= url_for :controller => '/members', :path => segment_id %>";}});
+</script>

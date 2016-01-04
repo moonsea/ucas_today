@@ -1,0 +1,6 @@
+<% paragraph_options_form_for :galleries do |f| %>
+<%= f.page_selector :detail_page, :label => 'Detail Page' %>
+<%= f.select :images_per_page , [ 1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,100 ], :label => 'Galleries per page' %>
+<%= f.radio_buttons :display_type, [ ['Show all galleries'.t,'all'], ['Show selected'.t,'selected'] ], :label => 'Display Type', :onclick=> '$("galleries_selected_galleries").disabled = $("galleries_display_type_all").checked;' %>
+<%= f.select :selected_galleries, Galleries.select_options,{ :vertical => true } , :multiple => true, :size => 5, :label => '', :disabled => (@options.display_type == 'all' ?  true : false) %>
+<% end -%>

@@ -1,0 +1,37 @@
+<script>
+Exporter = {
+  updateForm: function() {
+    if($('export_download_range').checked) {
+      $('export_range_start').disabled = false;
+      $('export_range_end').disabled = false;
+    } else {
+      $('export_range_start').disabled = true;
+      $('export_range_end').disabled = true;
+    }
+  }
+}
+</script>
+
+<div class='admin_content'>
+<% cms_form_for :export, @export, :html => { :id => 'export_form' } do |f| %>
+<%= f.radio_buttons :download, [ [ 'All Entries','all' ], ['Range of Entries','range' ]], :vertical => true, :separator => '<br/>', :onchange => 'Exporter.updateForm();' %>
+<% f.custom_field 'Entry Range', :vertical => true do %>
+  &nbsp;&nbsp;Entry # <input type='text' id='export_range_start' name='export[range_start]' size='4' value='1' /> to <input type='text' name='export[range_end]' size='4' id='export_range_end'  value='<%= @entry_count %>'/>
+<% end -%>
+<%= f.radio_buttons :export_format , @export_options , :vertical => true, :separator => '<br/>', :label => 'Format of downloaded file' %>
+<tr>
+  <td colspan='2' align='right'>
+    <input type='button' value='<%= vh "Export & Download".t %>' id='export_button' /><span style='display:none;' id='export_button_status'><%= "Exporting File".t %></span>
+  </td>
+</tr>
+<% end -%>
+</div>
+
+<script>
+Exporter.updateForm();
+
+new WebivaExporter({button: '#export_button',
+                    url: "<%= url_for :action => 'generate_file', :path => @content_model.id %>",
+	            frm: '#export_form',
+                    onComplete: function() {document.location = "<%= url_for :controller => '/content', :action => 'view', :path => @content_model.id %>";}});
+</script>

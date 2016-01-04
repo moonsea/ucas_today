@@ -1,0 +1,41 @@
+<script>
+docFileSelectCallback = function(field,file_type,id,name,url) {
+  $('file_link').innerHTML = name;
+  var params =$H({ node_id: "<%= @node.id %>",
+  				   file_id: id });
+  new Ajax.Request("<%= url_for :action => 'update_document_file' %>",
+  				   { 
+  				   	parameters: params.toQueryString()
+  				   });
+}
+
+docFolderSelectCallback = function(field,file_type,id,name,url) {
+  $('file_link').innerHTML = name;
+  var params =$H({ node_id: "<%= @node.id %>",
+  				   file_id: id });
+  new Ajax.Request("<%= url_for :action => 'update_document_file' %>",
+  				   { 
+  				   	parameters: params.toQueryString()
+  				   });
+}
+</script>
+<% if permit?('editor_structure') %>
+<ul class='page_detail_buttons'>
+  <li class='icon'><a href='javascript:void(0);'  title='<%= vh 'Delete file'.t%>' onclick='StructureEditor.nodeDelete(<%= @node.id %>,"<%= jh "Are you sure you want to remove this file?" .t %>");'><%= image_tag(theme_src('icons/header_actions/delete_page.png')) %></a></li>
+</ul>  
+<% end -%>
+
+<h1 class='inpage'><%= 'File Details:'.t %> <a href='<%= @node.node_path %>'><%= @node.node_path %></a></h1>
+<div class='tree_detail_body'>
+<%= "Selected File:".t %>
+ 
+ <% if permit?('editor_structure') %>
+   <span id='file_link'> <%=  ( @node.domain_file ? @node.domain_file.file_path : 'No File Selected'.t ) -%> </span><br/><br/>
+  <%= link_to "Select a File".t, { :controller => 'file', :select => 'all', :action => 'popup' , :popup_type => 'callback', :callback => 'docFileSelectCallback', :path => @node.domain_file ? @node.domain_file.parent_id : 0 }, :popup => ['file_manager', 'height=500,width=900,scrollbars=yes' ], :class => 'button_link'  %>
+  <%= link_to "Select a Folder".t, { :controller => 'file', :select => 'all', :action => 'popup' ,:select => 'fld', :popup_type => 'callback', :callback => 'docFolderSelectCallback', :path => @node.domain_file ? @node.domain_file.parent_id : 0 }, :popup => ['file_manager', 'height=500,width=900,scrollbars=yes' ], :class => 'button_link'  %>
+  <p><%= "If you select a file it will be available a this url, if you select a folder all files in that folder will be available below this location".t -%></p>
+ <% else %>
+  <%=   ( @node.domain_file ? @node.domain_file.file_path : 'No File Selected'.t ) %>
+ <% end -%>
+
+</div>

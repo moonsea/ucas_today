@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <%= render :partial => '/application/header_mce' %>
+
+<script>
+  MCE_Popup = {
+  
+    imageCallback: function(field,file_type,id,path,url,thumb,name,opts) {
+
+    var ed = tinyMCEPopup.editor;
+    var elm = ed.selection.getNode();
+    var src = url;
+
+    // Fixes crash in Safari
+     if (tinymce.isWebKit)
+       ed.getWin().focus();
+
+    var selectedText = ed.selection.getContent({format:'text'});
+
+    var currentSelection = (selectedText && selectedText.length > 0);
+    
+    if(file_type == 'img') {
+      file_opts = {};
+
+   
+      
+      if(opts) {
+        if(opts['align']) {
+          file_opts['align'] = opts['align'];
+        } 
+      
+      }
+      tinymce.extend(file_opts, {
+        src: src,
+        mce_src: src,
+      });
+    
+      if (elm != null && elm.nodeName.toLowerCase() == "img") {
+        if(src == '')
+          ed.execCommand("mceRemoveNode");
+        else {
+          ed.dom.setAttribs(elm,file_opts);
+	}
+      } else {
+	ed.execCommand("mceInsertContent", false,  '<img id="__mce_tmp" />', {skip_undo : 1});
+        ed.dom.setAttribs('__mce_tmp', file_opts);
+	ed.dom.setAttrib('__mce_tmp', 'id', '');
+        ed.undoManager.add();
+      }
+    }
+    else if(file_type == 'thm') {
+      if(elm != null && elm.nodeName == "A") {
+        if(src == '')
+          tinyMCEPopup.execCommand("mceRemoveNode");
+        else {
+          elm.href = url;
+	  inst.repaint();
+	}
+      } else if(currentSelection)  {
+        html = "<a target='_blank' href='" + url + "'>" + selectedText + "</a>";
+	ed.execCommand("mceInsertContent", false, html);
+      } else {
+        file_opts = {};
+      
+        if(opts) {
+          if(opts['align']) {
+            file_opts['align'] = opts['align'];
+          }
+        }
+
+        tinymce.extend(file_opts, {
+          src: thumb,
+          mce_src: thumb,
+        });
+
+        ed.dom.setAttribs(elm,file_opts);
+	ed.execCommand("mceInsertContent", false,  "<a target='_blank' href='" + url + "'>" + '<img id="__mce_tmp" />' + "</a>", {skip_undo : 1});
+        ed.dom.setAttribs('__mce_tmp', file_opts);
+	ed.dom.setAttrib('__mce_tmp', 'id', '');
+        ed.undoManager.add();
+      }
+        
+    } else if(file_type == 'doc') {
+      file_opts = {
+                  target: '_blank',
+                  href: url
+                  }
+      var html = "<a target='_blank' href='" + url + "'>" + name + "</a>";
+      
+      if (elm != null && elm.nodeName == "A") {
+        if(src == '')
+          tinyMCEPopup.execCommand("mceRemoveNode");
+        else {
+          elm.href = url;
+	  inst.repaint();
+	}
+      } else {
+        if(currentSelection) 
+          html = "<a target='_blank' href='" + url + "'>" + selectedText + "</a>";
+	ed.execCommand("mceInsertContent", false, html);
+      }
+    }
+  
+    tinyMCEPopup.close();
+  }
+  
+
+}
+</script>  
+</head>
+
+<body onload="tinyMCEPopup.executeOnLoad('<%= @onload %>');" >
+<div id='cms_manage_window'>
+<%= @content_for_layout %>
+</div>
+</body>
+</html>

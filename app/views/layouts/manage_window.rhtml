@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<%= render :partial => '/application/header' %>
+</head>
+
+<body onload='<%= @onload %>'>
+<div id='cms_manage_window'>
+  <%= render :partial => '/layouts/wizard_top' if @wizard %>
+  <%= yield %>
+  <%= render :partial => '/layouts/wizard_bottom' if @wizard %>
+</div>
+</body>
+</html>
