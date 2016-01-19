@@ -1,5 +1,0 @@
-page << "RedBox.loading();"
-
-page << @image_info
-
-page << "CmsGallery.overlayDisplay(#{@current_gallery.id},0);"

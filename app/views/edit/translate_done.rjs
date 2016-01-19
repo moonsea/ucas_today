@@ -1,1 +1,0 @@
-page << "window.opener.cmsEditor.reloadPageClose(#{@page.id},#{@revision.id},window);"

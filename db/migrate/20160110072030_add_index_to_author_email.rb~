@@ -1,0 +1,4 @@
+class AddIndexToAuthorEmail < ActiveRecord::Migration
+  def change
+  end
+end

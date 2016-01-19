@@ -1,0 +1,39 @@
+<% provide(:title, @author.name) %>
+<div class="row">
+<aside class="col-md-4">
+<section class="author_info">
+<h1>
+<%= gravatar_for @author %>
+<%= @author.name %>
+<%= @author.email %>
+</h1>
+</section>
+</aside>
+</div>
+<p>
+我的订阅信息:
+<%= @author.info %>
+</p>
+<h2>
+我发表的文章:
+</h2>
+<% @author.articles.each do |article| %>  
+   <h2><%= link_to article.title, article%></h2>  
+   <p>  
+	关键字: <%=article.info %>
+   </p>      
+   <p>  
+     内容: <%= truncate article.text %>  
+   </p>  
+   <p>  
+     创作于: "<%=  article.created_at %>        
+   </p> 
+<% end %>  
+<h2>
+我发表的评论:
+</h2>
+<% @author.comments.each do |comment| %>  
+    <p>  
+	<%= link_to comment.text, comment.article%>
+   </p> 
+<% end %>

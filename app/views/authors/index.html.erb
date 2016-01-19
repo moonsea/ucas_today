@@ -1,0 +1,10 @@
+<% provide(:title, 'All users') %>
+<h1>当前全部用户</h1>
+<ul class="authors">
+<% @authors.each do |author| %>
+<li>
+<%= gravatar_for author, size: 50 %>
+<%= link_to author.name, author %>
+</li>
+<% end %>
+</ul>

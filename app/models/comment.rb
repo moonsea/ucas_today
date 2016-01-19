@@ -1,0 +1,7 @@
+class Comment < ActiveRecord::Base  
+ 	#attr_accessor :text,:article_id,:author_id
+	validates :text, presence: true,length:{ maximum: 65535 }
+	belongs_to :article
+	belongs_to :author
+end
+

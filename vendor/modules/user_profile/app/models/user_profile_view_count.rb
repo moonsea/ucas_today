@@ -1,6 +1,0 @@
-
-class UserProfileViewCount< DomainModel 
-
-
-end
-

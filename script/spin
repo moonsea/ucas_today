@@ -1,2 +1,0 @@
-#!/bin/bash
-mongrel_rails cluster::start -C /home/webiva/current/config/mongrel_cluster.yml

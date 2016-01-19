@@ -1,0 +1,21 @@
+<%  if @articles!=nil  %>  
+<% @articles.each do |article| %>  
+   <h2><%= link_to article.title, article%></h2>  
+   <p>  
+	作者: "<%=  article.author.name %> 关键字: <%= truncate article.info %>
+   </p>      
+   <p>  
+     内容: <%= truncate article.text %>  
+   </p>  
+   <p>  
+     创作于: "<%=  article.created_at %>   
+     
+   </p> 
+<% end %>  
+  
+<p>  
+   <%= link_to "我也来写一篇", new_article_path%>  
+</p> 
+<%  else   %> 
+抱歉 您订阅的信息未找到   
+<% end   %> 

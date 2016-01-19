@@ -1,6 +1,0 @@
-default_language: en
-default_country: US
-active_cache: true
-git_repository: git@github.com:cykod
-memcache_servers: 
-- localhost:11211
