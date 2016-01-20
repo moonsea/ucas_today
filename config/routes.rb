@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
-    get '/articles/search' => 'articles#search'
+  get '/articles/search_news' => 'articles#search_news'
+  get '/authors/search_friends' => 'authors#search_friends'
 	get 'help' => 'static_pages#help'
 	get 'about' => 'static_pages#about'
 	get 'contact' => 'static_pages#contact'

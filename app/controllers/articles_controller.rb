@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.all
   end
-  def search
+  def search_news
     #@articles = Article.where(info:params[:info])
     #@author = Author.find(session[:author_id])
     #@author = Author.find(session[:author_id])

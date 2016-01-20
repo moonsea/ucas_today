@@ -1,0 +1,10 @@
+<%  if @authors!=nil  %> 
+<%  @authors=@authors.sort{|x,y| y.id<=>x.id}  %> 
+<% @authors.each do |author| %>  
+   <p>  
+	姓名: "<%=  author.name %>
+   </p>      
+<% end %>  
+<%  else   %> 
+不好啦 您寻找的小伙伴被外星人抓走啦
+<% end   %> 
