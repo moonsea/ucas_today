@@ -11,6 +11,10 @@ class ArticlesController < ApplicationController
     @author = Author.find(session[:author_id])
     @articles = Article.where(info:@author.info)
   end
+  def info
+    @articles = Article.where(info:params[:info])
+    render 'all'
+  end
   def all
     @articles = Article.all
   end

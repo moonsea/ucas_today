@@ -1,29 +1,81 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
+<header class="navbar navbar-fixed-top navbar-default">
 <div class="container">
-<%= link_to "果壳today", root_path, id: "logo" %>
-<nav>
-<ul class="nav navbar-nav pull-right">
-<li><%= link_to "主页", root_path %></li>
-<li><%= link_to "帮助", help_path %></li>
-<% if logged_in? %>
-<li><%= link_to "用户", authors_path %></li>
-<li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-我的账户 <b class="caret"></b>
+
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" onClick="showMenu();">
+  <span class="sr-only">Toggle navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+<a href="#">
+  <%=image_tag "logo.png",class: "img-responsive logo hidden-lg hidden-md hidden-sm" %>
 </a>
-<ul class="dropdown-menu">
-<li><%= link_to "内容", current_author %></li>
-<li><%= link_to "设置", edit_author_path(current_author) %></li>
-<li class="divider"></li>
-<li>
-<%= link_to "登出", logout_path, method: "delete" %>
-</li>
-</ul>
-</li>
-<% else %>
-<li><%= link_to "登入", login_path %></li>
-<% end %>
-</ul>
-</nav>
 </div>
+
+<div class="collapse navbar-collapse" id="navTop">
+    <ul class="nav navbar-nav navbar-left">
+      <li class="navbar-header hidden-xs">
+        <%=image_tag "logo.png",class: "img-responsive logo" %>
+      </li>
+      <li style="margin-left: 2em;">
+        <form action="" role="form" id="f">
+          <table width="300" height="50" border="0" cellpadding="0" cellspacing="0" align="center">
+            <tr>
+              <td width="250" align="left" valign="middle" height="50">
+                <input type="text" class="form-control" name="keywords" style="margin-top:0; margin-bottom: 0; border-right:none; border-radius: 5px 0 0 5px;">
+              </td>
+              <td width="50" align="left" valign="middle" height="50">
+                <span class="btn btn-default" style="padding-left: 5px; border-radius: 0 5px 5px 0;" onclick="javascript:$('#f').submit();">
+                  <i class="glyphicon glyphicon-search"></i>
+                  搜索
+                </span>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+    <li><%= link_to "首页", root_path %></li>
+    <% if logged_in? %>
+    <li><%= link_to "找些小伙伴吧", authors_path %></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        我的账户 <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+        <li style="padding-left: 1em;"><i class="glyphicon glyphicon-user"></i><%= link_to current_author.name, current_author, style: 'display: inline-block' %></li>
+        <li style="padding-left: 1em;"><i class="glyphicon glyphicon-pencil"></i><%= link_to "我要发文章", new_article_path, style: 'display: inline-block' %></li>
+        <li style="padding-left: 1em;"><i class="glyphicon glyphicon-wrench"></i><%= link_to "设置", edit_author_path(current_author), style: 'display: inline-block'  %></li>
+        <li class="divider"></li>
+        <li style="padding-left: 1em;">
+        <i class="glyphicon glyphicon-log-out"></i>
+        <%= link_to "注销", logout_path, method: "delete", style: 'display: inline-block'   %>
+        </li>
+        </ul>
+    </li>
+    <% else %>
+      <li><%= link_to "登录", login_path %></li>
+      <li><%= link_to "注册", 'signup' %></li>
+    <% end %>
+    <li><%= link_to "帮助", help_path %></li>
+</ul>
+</div>
+</div>
+  <script>
+      var isHide = true;
+      function showMenu()
+      {
+          if(isHide)
+          {
+              $("#navTop").show(200);
+          }
+          else
+          {
+              $("#navTop").hide(200);
+          }
+          isHide = !isHide;
+      }
+  </script>
 </header>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 	get 'signup' => 'authors#new'
 	get 'login' => 'sessions#new'
 	get'recommend'=>'articles#recommend'
+	get ':controller(/:action(/:info))'
 	get'all'=>'articles#all'
 	post 'login' => 'sessions#create'
 	delete 'logout' => 'sessions#destroy'

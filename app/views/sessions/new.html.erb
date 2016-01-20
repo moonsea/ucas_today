@@ -1,14 +1,36 @@
 <% provide(:title, "Log in") %>
-<h1>登录我的账号</h1>
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
-<%= form_for(:session, url: login_path) do |f| %>
-<%= f.label :邮箱 %>
-<%= f.text_field :email %>
-<%= f.label :密码 %>
-<%= f.password_field :password %>
-<%= f.submit "登录", class: "btn btn-primary" %>
-<% end %>
-<p>新的用户？ <%= link_to "现在就加入吧!", 'signup' %></p>
-</div>
+<div class="login">
+<h3>欢迎来到果壳TODAY的世界</h3>
+    <%= form_for(:session, url: login_path) do |f| %>
+    <table width="80%" align="center">
+      <tr>
+        <td align="left" valign="middle" width="15%" height="50">
+          <%= f.label :邮箱 %>
+        </td>
+        <td width="85%" height="50" align="left" valign="middle">
+          <%= f.text_field :email,class:'form-control',style:'margin-top:10px;' %>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" valign="middle" height="50">
+          <%= f.label :密码 %>
+        </td>
+        <td height="50" align="left" valign="middle">
+          <%= f.password_field :password,class:'form-control',style:'margin-top:10px;' %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middlde" height="50">
+          <%= f.submit "登录", class: "btn btn-success pull-left col-lg-6 col-md-6 col-sm-6 col-xs-6" %>
+          <%= link_to "新用户注册", 'signup',class:"btn btn-info pull-right col-lg-5 col-md-5 col-sm-5 col-xs-5" %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middlde" height="50">
+          你会发现这是一个神奇的世界！
+        </td>
+      </tr>
+    <% end %>
+
+    </table>
 </div>
