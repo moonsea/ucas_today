@@ -1,10 +1,37 @@
 <% provide(:title, 'All users') %>
-<h1>当前全部用户</h1>
-<ul class="authors">
-<% @authors.each do |author| %>
-<li>
-<%= gravatar_for author, size: 50 %>
-<%= link_to author.name, author %>
-</li>
-<% end %>
-</ul>
+<div class="container">
+  <center><h3>快来找些小伙伴吧</h3></center>
+  <div class="col-lg-12 col-md-10 col-sm-12 col-xs-12">
+    <form name="f" action="">
+      <table width="100%" height="80" border="0" cellpadding="0" cellspacing="0" align="center">
+        <tr>
+          <td width="10%">
+            &nbsp;
+          </td>
+          <td width="70%" align="left" valign="middle" height="80">
+            <input type="text" class="form-control" name="keywords" style="margin-top:0; margin-bottom: 0; border-right:none; border-radius: 5px 0 0 5px;" placeholder="神马？有中意的人了？搜索一下吧！">
+          </td>
+          <td width="20%" align="left" valign="middle" height="80">
+            <span class="btn btn-default" style="padding-left: 5px; border-radius: 0 5px 5px 0;" onclick="javascript:$('#f').submit();">
+              <i class="glyphicon glyphicon-search"></i>
+              搜索
+            </span>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<div class="container" style="margin-top: 20px;">
+  <% @authors.each do |author| %>
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" style="margin-bottom: 20px; cursor: pointer;">
+    <img src="http://placehold.it/80x80" class="img-responsive img-rounded pull-left"/>
+    <div class="pull-left" style="margin-left:1.5em;">
+        <%= link_to author.name, author,style: 'line-height:45px;' %>
+        <br>
+        <%= author.created_at.to_s.first(10)%>
+    </div>
+  </div>
+  <% end %>
+</div>
+

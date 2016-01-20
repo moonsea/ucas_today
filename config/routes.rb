@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 	get 'signup' => 'authors#new'
 	get 'login' => 'sessions#new'
 	get'recommend'=>'articles#recommend'
-	get ':controller(/:action(/:info))'
 	get'all'=>'articles#all'
 	post 'login' => 'sessions#create'
 	delete 'logout' => 'sessions#destroy'
@@ -26,7 +25,8 @@ resources :articles do
   end  
 resources :comments do  
     resources :authors 
-  end  
+end
+	get ':controller(/:action(/:info))'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

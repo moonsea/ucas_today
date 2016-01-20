@@ -23,7 +23,7 @@
 	关键字: <%= link_to article.info, "articles/info/#{article.info}"%>
    </p>      
    <p>  
-     内容: <%= truncate article.text %>  
+     内容: <%=  article.text.first(100) %>...
    </p>  
    <p>  
      创作于: "<%=  article.created_at %>        

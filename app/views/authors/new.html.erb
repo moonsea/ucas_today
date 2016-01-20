@@ -8,7 +8,7 @@
         <%= f.label :用户名 %>
       </td>
       <td width="85%" height="50" align="left" valign="middle">
-        <%= f.text_field :name,class:'form-control',style:'margin-top:10px;' %>
+        <%= f.text_field :name,class:'form-control',style:'margin-top:10px;',placeholder:'填写一个响亮的称号',required:'required' %>
       </td>
     </tr>
     <tr>
@@ -16,7 +16,7 @@
         <%= f.label :电子邮箱 %>
       </td>
       <td width="85%" height="50" align="left" valign="middle">
-        <%= f.text_field :email,class:'form-control',style:'margin-top:10px;' %>
+        <%= f.text_field :email,class:'form-control',style:'margin-top:10px;',placeholder:'独一无二的邮箱',required:'required' %>
       </td>
     </tr>
     <tr>
@@ -24,7 +24,7 @@
         <%= f.label :密码 %>
       </td>
       <td width="85%" height="50" align="left" valign="middle">
-        <%= f.password_field :password,class:'form-control',style:'margin-top:10px;' %>
+        <%= f.password_field :password,class:'form-control',style:'margin-top:10px;',placeholder:'一定记住了哟',required:'required' %>
       </td>
     </tr>
     <tr>
@@ -32,7 +32,7 @@
         <%= f.label :password_confirmation,"确认密码" %>
       </td>
       <td width="85%" height="50" align="left" valign="middle">
-        <%= f.password_field :password_confirmation,class:'form-control',style:'margin-top:10px;' %>
+        <%= f.password_field :password_confirmation,class:'form-control',style:'margin-top:10px;',placeholder:'确认一把',required:'required' %>
       </td>
     </tr>
     <tr>
@@ -40,7 +40,7 @@
         <%= f.label "订阅信息" %>
       </td>
       <td width="85%" height="50" align="left" valign="middle">
-        <%= f.text_field :info ,class:'form-control',style:'margin-top:10px;'%>
+        <%= f.text_field :info ,class:'form-control',style:'margin-top:10px;',placeholder:'填写订阅可以直接看到我们筛选的新闻哟'%>
       </td>
     </tr>
     <tr>
@@ -50,8 +50,6 @@
     </tr>
 
   </table>
-
-    
 <% end %>
 </div>
 

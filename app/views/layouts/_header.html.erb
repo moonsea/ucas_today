@@ -18,7 +18,12 @@
       <li class="navbar-header hidden-xs">
         <%=image_tag "logo.png",class: "img-responsive logo" %>
       </li>
-      <li style="margin-left: 2em;">
+      <li>
+        <h3 style="margin: 0; line-height: 50px; margin-left: 14px;">TODAY</h3>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li style="margin-right: 2em;">
         <form action="" role="form" id="f">
           <table width="300" height="50" border="0" cellpadding="0" cellspacing="0" align="center">
             <tr>
@@ -26,17 +31,15 @@
                 <input type="text" class="form-control" name="keywords" style="margin-top:0; margin-bottom: 0; border-right:none; border-radius: 5px 0 0 5px;">
               </td>
               <td width="50" align="left" valign="middle" height="50">
-                <span class="btn btn-default" style="padding-left: 5px; border-radius: 0 5px 5px 0;" onclick="javascript:$('#f').submit();">
-                  <i class="glyphicon glyphicon-search"></i>
-                  搜索
-                </span>
+            <span class="btn btn-default" style="padding-left: 5px; border-radius: 0 5px 5px 0;" onclick="javascript:$('#f').submit();">
+              <i class="glyphicon glyphicon-search"></i>
+              搜索
+            </span>
               </td>
             </tr>
           </table>
         </form>
       </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
     <li><%= link_to "首页", root_path %></li>
     <% if logged_in? %>
     <li><%= link_to "找些小伙伴吧", authors_path %></li>
@@ -60,6 +63,7 @@
       <li><%= link_to "注册", 'signup' %></li>
     <% end %>
     <li><%= link_to "帮助", help_path %></li>
+
 </ul>
 </div>
 </div>

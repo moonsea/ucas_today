@@ -8,7 +8,7 @@
           <%= f.label :邮箱 %>
         </td>
         <td width="85%" height="50" align="left" valign="middle">
-          <%= f.text_field :email,class:'form-control',style:'margin-top:10px;' %>
+          <%= f.text_field :email,class:'form-control',style:'margin-top:10px;',placeholder:'您注册时填写的邮箱',required:'required' %>
         </td>
       </tr>
       <tr>
@@ -16,7 +16,7 @@
           <%= f.label :密码 %>
         </td>
         <td height="50" align="left" valign="middle">
-          <%= f.password_field :password,class:'form-control',style:'margin-top:10px;' %>
+          <%= f.password_field :password,class:'form-control',style:'margin-top:10px;',placeholder:'密码',required:'required' %>
         </td>
       </tr>
       <tr>

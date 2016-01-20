@@ -13,7 +13,6 @@ class AuthorsController < ApplicationController
 		@author = Author.new(params[:author])
 		if @author.save
 			log_in @author
-			flash[:success] = "欢迎来到果壳Today!"
 			redirect_to @author
 		else
 		render 'new'
