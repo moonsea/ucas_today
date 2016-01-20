@@ -8,9 +8,12 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
   def search
-    @articles_info = Article.where(info:params[:info])
-    @articles_title = Article.where(title:params[:info])
-    render 'all'
+    #@articles = Article.where(info:params[:info])
+    #@author = Author.find(session[:author_id])
+    #@author = Author.find(session[:author_id])
+    #@articles = Article.where(info:params[:keywords])
+    @articles = Article.where("info like ? or title like ?","%"+params[:keywords]+"%","%"+params[:keywords]+"%")
+    #render 'all'
   end
   def recommend
     @author = Author.find(session[:author_id])
