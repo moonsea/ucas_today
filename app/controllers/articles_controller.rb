@@ -7,6 +7,11 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.all
   end
+  def search
+    @articles_info = Article.where(info:params[:info])
+    @articles_title = Article.where(title:params[:info])
+    render 'all'
+  end
   def recommend
     @author = Author.find(session[:author_id])
     @articles = Article.where(info:@author.info)
