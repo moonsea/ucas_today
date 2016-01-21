@@ -1,10 +1,12 @@
 class CommentsController < ApplicationController  
   def create  
     params.permit!
-    @article = Article.find(params[:article_id])  
-    @comment = @article.comments.build(params[:comment])  
-    @comment.author_id=session[:author_id]
-    @comment.save  
+    if session[:author_id] != nil
+      @article = Article.find(params[:article_id])  
+      @comment = @article.comments.build(params[:comment])  
+      @comment.author_id=session[:author_id]
+      @comment.save
+    end
   
     redirect_to @article
   end  

@@ -80,7 +80,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     respond_to do |format|
-      format.html { redirect_to articles_url }
+      format.html { redirect_to current_author }
       format.json { head :no_content }
     end
   end
