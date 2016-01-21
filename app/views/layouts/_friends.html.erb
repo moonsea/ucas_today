@@ -1,10 +1,18 @@
 <%  if @authors!=nil  %> 
-<%  @authors=@authors.sort{|x,y| y.id<=>x.id}  %> 
-<% @authors.each do |author| %>  
-   <p>  
-	姓名: "<%=  author.name %>
-   </p>      
-<% end %>  
+<%  @authors=@authors.sort{|x,y| y.id<=>x.id}  %>
+    <div class="container">
+      <% @authors.each do |author| %>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" style="margin-bottom: 20px; cursor: pointer;">
+            <img src="http://placehold.it/80x80" class="img-responsive img-rounded pull-left"/>
+            <div class="pull-left" style="margin-left:1.5em;">
+              <%= link_to author.name, author,style: 'line-height:45px;' %>
+              <br>
+              <%= author.created_at.to_s.first(10)%>
+            </div>
+          </div>
+      <% end %>
+    </div>
+
 <%  else   %> 
 不好啦 您寻找的小伙伴被外星人抓走啦
 <% end   %> 

@@ -1,22 +1,60 @@
 <%  if @articles!=nil  %> 
-<%  @articles=@articles.sort{|x,y| y.id<=>x.id}  %>  
-<% @articles.each do |article| %>  
-   <h2><%= link_to article.title, article%></h2>  
-   <p>  
-	作者: "<%=  article.author.name %> 关键字: <%= truncate article.info %>
-   </p>      
-   <p>  
-     内容: <%= truncate article.text %>  
-   </p>  
-   <p>  
-     创作于: "<%=  article.created_at %>   
-     
-   </p> 
-<% end %>  
-  
-<p>  
-   <%= link_to "我也来写一篇", new_article_path%>  
-</p> 
-<%  else   %> 
-抱歉 您订阅的信息未找到   
+    <%  @articles=@articles.sort{|x,y| y.id<=>x.id}  %>
+    <div class="container">
+      <div class="col-lg-9 col-mg-9 col-sm-12 col-xs-12">
+        <ul>
+          <% @articles.each do |article| %>
+              <li style="padding: 1em; height: auto; overflow: auto;">
+                <table width="100%" height="auto" align="left">
+                  <tr>
+                    <td width="20%" height="120" align="left" valign="middle"class="hidden-xs hidden-sm">
+                      <img src="http://placehold.it/120x120" />
+                    </td>
+                    <td width="80%" height="120" align="left" valign="top">
+                      <h5 class="pull-left"><%= link_to article.title, article%></h5>
+                      <label class="label label-info pull-right">
+                        <%= link_to article.info, "/articles/info/#{article.info}", class: 'blocka'%>
+                      </label>
+                      <div class="clearfix"></div>
+                      <p>
+                        <%= article.text.first(150) %>...
+                      </p>
+                      <div class="pull-right">
+                        <p><%=  article.author.name %>&nbsp;&nbsp;&nbsp;&nbsp;<%=  article.created_at %></p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-mg-3 col-sm-12 col-xs-12">
+        <ul class="list-group" style="list-style: none" id="new_man">
+          <li><h4><i class="glyphicon glyphicon-fire">&nbsp;</i>欢迎新来的姑娘和汉子们</h4></li>
+          <br>
+          <% @users.each do |user|%>
+              <li style="height: auto; overflow: auto; margin-bottom: 10px;">
+                <img src="http://placehold.it/60x60" class="img-responsive img-circle pull-left" style="margin-top: 5px;"/>
+                <%=link_to user.name,user,class:'pull-left',style:'display:block; line-height:60px; margin-left:1em;' %>
+                <p class="pull-right" style="line-height: 60px;"><%= user.created_at.to_s.first(10)%></p>
+              </li>
+          <% end %>
+          <br/>
+          <li><h4><i class="glyphicon glyphicon-leaf">&nbsp;</i>瞻仰一下咱的大腕儿们</h4></li>
+          <br>
+          <% @users.each do |user|%>
+              <li style="height: auto; overflow: auto; margin-bottom: 10px;">
+                <img src="http://placehold.it/60x60" class="img-responsive img-circle pull-left" style="margin-top: 5px;"/>
+                <%=link_to user.name,user,class:'pull-left',style:'display:block; line-height:60px; margin-left:1em;' %>
+                <p class="pull-right" style="line-height: 60px;"><%= user.created_at.to_s.first(10)%></p>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+<%  else %>
+    <div class="login">
+      抱歉，暂时没有您需要的信息
+    </div>
 <% end   %> 

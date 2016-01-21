@@ -9,6 +9,9 @@ class ArticlesController < ApplicationController
   end
   def search_news
     @articles = Article.where("info like ? or title like ?","%"+params[:keywords]+"%","%"+params[:keywords]+"%")
+    @users = Author.all;
+    @users = @users.sort{|x,y| y.created_at<=>x.created_at};
+    @users = @users[0..4];
   end
   def recommend
     @author = Author.find(session[:author_id])
@@ -16,6 +19,9 @@ class ArticlesController < ApplicationController
   end
   def info
     @articles = Article.where(info:params[:info])
+    @users = Author.all;
+    @users = @users.sort{|x,y| y.created_at<=>x.created_at};
+    @users = @users[0..4];
     render 'all'
   end
   def all
