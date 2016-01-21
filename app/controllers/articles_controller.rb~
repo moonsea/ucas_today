@@ -9,11 +9,7 @@ class ArticlesController < ApplicationController
   end
   def recommend
     @author = Author.find(session[:author_id])
-    @articles = Article.where(info:@author.info)
-  end
-  def info
-    @articles = Article.where(info:params[:info])
-    render 'all'
+    @articles = Article.find_all_by_info(@author.info)
   end
   def all
     @articles = Article.all
@@ -39,7 +35,7 @@ class ArticlesController < ApplicationController
     if logged_in?
 	@article.author_id=session[:author_id]
     else 
-	@article.author_id=1
+	@article.author_id=-1
     end
     respond_to do |format|
       if @article.save
@@ -57,7 +53,7 @@ class ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article }
+        format.html { redirect_to @article, notice: '文章创建成功.' }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit }
@@ -71,7 +67,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     respond_to do |format|
-      format.html { redirect_to articles_url }
+      format.html { redirect_to articles_url, notice: '文章成功删除.' }
       format.json { head :no_content }
     end
   end

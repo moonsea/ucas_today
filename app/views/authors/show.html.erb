@@ -1,39 +1,107 @@
 <% provide(:title, @author.name) %>
-<div class="row">
-<aside class="col-md-4">
-<section class="author_info">
-<h1>
-<%= gravatar_for @author %>
-<%= @author.name %>
-<%= @author.email %>
-</h1>
-</section>
-</aside>
+<div class="container">
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="border: 1px solid #ececec; border-right:none;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 1em;">
+        <table width="100%" height="80" align="center">
+          <tr>
+            <td><img src="http://placehold.it/80x80" class="img-responsive img-rounded pull-left"/></td>
+            <td style="padding-left: 1em;" align="left">
+              <h3 style="margin-top: 0;"><%= @author.name %></h3>
+              <%= @author.email %>
+            </td>
+          </tr>
+          <tr>
+            <td height="10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="2" height="30" valign="middle">
+                我的订阅信息:
+                <%= link_to @author.info, "articles/info/#{@author.info}", class: 'label label-info'%>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" height="30" valign="middle">
+              创建日期:
+              <%= @author.created_at.to_s.first(10)%>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" height="30" valign="middle">
+              上次登录:
+              <%= @author.updated_at.to_s.first(10)%>
+            </td>
+          </tr>
+        </table>
+
+    </div>
+  </div>
+  <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12" style="border-left: 1px solid #ececec; border-bottom: 1px solid #ececec;">
+    <h4>果壳TODAY为您推荐的文章</h4>
+    <ul class="list-group" style="list-style: none; border-bottom: 1px solid #ececec;">
+      <% @recommend_articles.each do |article| %>
+          <li style="padding: 1em; height: auto; overflow: auto;">
+            <table width="100%" height="auto" align="left">
+              <tr>
+                <td width="20%" height="120" align="left" valign="middle"class="hidden-xs hidden-sm">
+                  <img src="http://placehold.it/120x120" />
+                </td>
+                <td width="80%" height="120" align="left" valign="top">
+                  <h5 class="pull-left"><%= link_to article.title, article%></h5>
+                  <label class="label label-info pull-right">
+                    <%= link_to article.info, "/articles/info/#{article.info}", class: 'blocka'%>
+                  </label>
+                  <div class="clearfix"></div>
+                  <p>
+                    <%= article.text.first(150) %>...
+                  </p>
+                  <div class="pull-right">
+                    <p><%=  article.author.name %>&nbsp;&nbsp;&nbsp;&nbsp;<%=  article.created_at %></p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </li>
+      <% end %>
+    </ul>
+    <h4>我发表的文章</h4>
+    <ul class="list-group" style="list-style: none; border-bottom: 1px solid #ececec;">
+      <% @author.articles.each do |article| %>
+          <li style="padding: 1em; height: auto; overflow: auto;">
+            <table width="100%" height="auto" align="left">
+              <tr>
+                <td width="20%" height="120" align="left" valign="middle"class="hidden-xs hidden-sm">
+                  <img src="http://placehold.it/120x120" />
+                </td>
+                <td width="80%" height="120" align="left" valign="top">
+                  <h5 class="pull-left"><%= link_to article.title, article%></h5>
+                  <label class="label label-info pull-right">
+                    <%= link_to article.info, "/articles/info/#{article.info}", class: 'blocka'%>
+                  </label>
+                  <div class="clearfix"></div>
+                  <p>
+                    <%= article.text.first(150) %>...
+                  </p>
+                  <div class="pull-right">
+                    <p><%=  article.created_at %></p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </li>
+      <% end %>
+    </ul>
+    <h4>我发表的评论</h4>
+    <ul class="list-group" style="list-style: none;">
+      <% @author.comments.each do |comment| %>
+        <li style="padding: 1em; height: auto; overflow: auto; margin-bottom: 8px;">
+          <div class="pull-left">我评论&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<%= link_to comment.article.title,comment.article%>#</div>
+          <div class="pull-right"><%= comment.created_at %></div>
+          <div class="clear"></div><br><br>
+          <div class="pull-left" style="margin-left: 2em;">
+            <%= comment.text.to_s.first(100)%>...
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
-<p>
-我的订阅信息:
-<%= @author.info %>
-</p>
-<h2>
-我发表的文章:
-</h2>
-<% @author.articles.each do |article| %>  
-   <h2><%= link_to article.title, article%></h2>  
-   <p>  
-	关键字: <%= link_to article.info, "articles/info/#{article.info}"%>
-   </p>      
-   <p>  
-     内容: <%=  article.text.first(100) %>...
-   </p>  
-   <p>  
-     创作于: "<%=  article.created_at %>        
-   </p> 
-<% end %>  
-<h2>
-我发表的评论:
-</h2>
-<% @author.comments.each do |comment| %>  
-    <p>  
-	<%= link_to comment.text, comment.article%>
-   </p> 
-<% end %>

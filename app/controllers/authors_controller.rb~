@@ -4,9 +4,6 @@ class AuthorsController < ApplicationController
 	end
 	def show
 		@author = Author.find(params[:id])
-		@author.articles = @author.articles.limit(10);
-		@author.comments = @author.comments.limit(10);
-		@recommend_articles = Article.where(info:@author.info).limit(10);
 	end
 	def new
 		@author = Author.new
@@ -16,6 +13,7 @@ class AuthorsController < ApplicationController
 		@author = Author.new(params[:author])
 		if @author.save
 			log_in @author
+			flash[:success] = "欢迎来到果壳Today!"
 			redirect_to @author
 		else
 		render 'new'
@@ -26,10 +24,8 @@ class AuthorsController < ApplicationController
 	end
 	def update
 		@author = Author.find(params[:id])
-    @author.update_attributes(author_params)
-    @author.articles = @author.articles.limit(10);
-    @author.comments = @author.comments.limit(10);
-    @recommend_articles = Article.where(info:@author.info).limit(10);
+		 @author.update_attributes(author_params)
+		flash[:success] = "Profile updated"
 		render 'show'
 	end
 

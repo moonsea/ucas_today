@@ -1,34 +1,47 @@
-<h1><%= @article.title %></h1>  
-  
-<p>  
-作者：<%= @article.author.name %>    
-关键字: <%= @article.info %>  
-</p>  
+<div class="container">
+  <center><h3><%= @article.title %></h3></center>
+  <center>
+    作者：<%= @article.author.name %>&nbsp;&nbsp;&nbsp;&nbsp;
+    关键字: <%= @article.info %>&nbsp;&nbsp;&nbsp;&nbsp;
+    最后修改时间:<%= @article.updated_at.to_s.first(10)%>
+  </center>
+  <br>
+  <center>
+    <% if @article.author.id==session[:author_id] %>
+        <i class="glyphicon glyphicon-edit"></i><%= link_to "编辑文章", edit_article_path(@article) %>&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="glyphicon glyphicon-remove"></i><%= link_to "删除文章",@article,:method => :delete, :confirm => "确定要删除文章么" %>
+    <%end%>
+  </center>
+  <article style="margin-top: 2em; text-indent:2em; line-height: 26px;">
+    <%= @article.text %>
+  </article>
+  <br>
+  <h4>评论列表</h4>
+  <ul class="list-group" style="list-style: none;">
+    <% @article.comments.each do |comment| %>
+        <li style="padding: 1em; height: auto; overflow: auto; margin-bottom: 8px;">
+          <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
+            <img src="http://placehold.it/60x60" class="img-responsive img-circle"/>
+            <center>
+            <p><%= comment.author.name %></p>
+            <% if @article.author_id==session[:author_id]||comment.author.id==session[:author_id] %>
+                <p><%= link_to "删除评论", [@article, comment], :method => :delete, :confirm => "确定要删除该评论吗？" %></p>
+            <% end %>
+            </center>
+          </div>
+          <div class="col-lg-11 col-md-10 col-sm-9 col-xs-9">
+            <p style="line-height: 20px;"><%= comment.text %></p>
+            <p class="pull-right"><%= comment.created_at %></p>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>
+<div class="container">
+  <h4>我来评论一条</h4>
+  <%= form_for [@article,@article.comments.build] do |f| %>
+      <p><%= f.text_area :text, :size => '40x10' %> </p>
+      <p><%= f.submit "为文章添加评论",class:'form-control btn btn-success' %> </p>
+  <% end %>
+</div>
 
-<%= @article.text %>  
-  
-<h2>评论列表：</h2>  
-  
-<% @article.comments.each do |comment| %>  
-  <p><%= comment.text %></p>  
-  <p><%= comment.author.name %>发表于：<%= comment.created_at %>  </p> 
-<% if @article.author_id==session[:author_id]||comment.author.id==session[:author_id] %> 
-  <p><%= link_to "删除评论", [@article, comment], :method => :delete, :confirm => "确定要删除该评论吗？" %></p>  
-<% end %> 
-<% end %>  
-  
-<%= form_for [@article,@article.comments.build] do |f| %>  
-  <p><%= f.text_area :text, :size => '40x10' %> </p>  
-  <p><%= f.submit "为文章添加评论" %> </p>  
-<% end %>  
-  
-<p>  
-<%= link_to "返回首页", articles_path %>  
-<% if @article.author.id==session[:author_id] %>
-|  
-<%= link_to "编辑文章", edit_article_path(@article) %>  
-|  
-<%= link_to "删除文章",@article,:method => :delete, :confirm => "确定要删除文章么" %> 
-<%end%>
-
-</p>  

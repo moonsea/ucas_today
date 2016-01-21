@@ -1,29 +1,14 @@
 <% provide(:title, @author.name) %>
-<div class="row">
-<aside class="col-md-4">
-<section class="author_info">
-<h1>
-<%= gravatar_for @author %>
-<%= @author.name %>
-<%= @author.email %>
-</h1>
-</section>
-</aside>
+<div class="container">
+  <div class="login">
+    <h4>更改设置</h4>
+    <br>
+    <%= form_for(@author) do |f| %>
+        <%= f.password_field :password, class: 'form-control', placeholder:'更改密码（非必填）' %>
+        <%= f.password_field :password_confirmation, class: 'form-control', placeholder:'再次输入密码以确认' %>
+        <%= f.text_field :info, class:'form-control', placeholder:'感兴趣的关键词'%>
+        <%= f.submit "保存更改", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
-<p>
-我的订阅信息:
-<%= @author.info %>
-</p>
-<p>
-更改订阅信息:
-<%= form_for(@author) do |f| %>
 
-<%= f.label :输入密码 %>
-<%= f.password_field :password, class: 'form-control' %>
-<%= f.label :password_confirmation, "确认密码" %>
-<%= f.password_field :password_confirmation, class: 'form-control' %>
-
-<%= f.text_field :info%>
-<%= f.submit "保存更改", class: "btn btn-primary" %>
-<% end %>
-</p>
